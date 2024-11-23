@@ -7,12 +7,54 @@
 </head>
 <body>
     <?php
-    $conn= mysqli_connect("localhost","root","","student");
-    $sql="SELECT * FROM students";
+    $conn= mysqli_connect("localhost","root","","a_shop");
+    $sql="SELECT * FROM users";
+
+   if(isset($_GET['searchBtn'])){
+
+       $sql = "SELECT * FROM users WHERE id = ". $_GET['search'];
+       $searchby=$_GET['search-list'];
+       $searchtext=$_GET['search'];
+       if($searchBy=='id'){
+        $sql = "SELECT * FROM users WHERE id = '$searchtext'";
+       }else if($searchBy=='username'){
+        $sql = "SELECT * FROM users WHERE username = '$searchtext'";
+       }else if($searchBy=='email'){
+        $sql = "SELECT * FROM users WHERE email = '$searchtext'";
+       }else if($searchBy=='address'){
+        $sql = "SELECT * FROM users WHERE address = '$searchtext'";
+       }else if($searchBy=='phoneno'){
+        $sql = "SELECT * FROM users WHERE phoneno = '$searchtext'";
+       }else{
+        "<script>alert('please select my field')</script>";
+       }
+       
+   }
+
     $run=mysqli_query($conn,$sql);
     if(mysqli_num_rows($run)>0){
     
     ?>
+
+   <form action="" method="get">
+   <label for="">search by id:</label>
+   <input type="number" require value="0" name="search">
+   <input type="submit" value="search" name="searchBtn"> 
+   <button><a href="display.php">reset</a></button>
+   <select name="search-list">
+    <option value="select">select</option>
+    <option value="username">username</option>
+    <option value="email">email</option>
+    <option value="address">address</option>
+    <option value="phoneno">phoneno</option>
+    </select>
+    
+   </form>
+
+
+
+
+
     <table border="1" cellspacing="0px" cellpadding="20px">
     <thead>
         <tr>
